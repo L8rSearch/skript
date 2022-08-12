@@ -1,0 +1,14 @@
+#
+#	Slots
+#
+command /slots:
+	trigger:
+		open virtual chest inventory with size 1 named "Shop" to player
+		format gui slot 0 of player with gold_ingot named "&a1Mil slot" with lore "&a1/10 chance for &2$10Mil" to run: 
+			set {slots} to a random integer between 1 and 10
+			if balance >= 1000000:
+				if {slots} is 1:
+					add 10000000 to balance
+					message "&a You won &2$10Mil&a from the slot"
+			else:
+				message "&c You need &2$&a%1000000-balance% &cmore"

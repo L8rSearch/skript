@@ -1,0 +1,82 @@
+
+
+command /worldspawn_set [<text>]:
+	permission: op 
+	trigger:
+		set {worldspawn.%arg-1%} to location of player
+		message "&aworldspawn &b%arg-1% &aset to: &b%{worldspawn.%arg-1%}%"
+		if {worldspawnlist::*} does not contain arg-1:
+			add arg-1 to {worldspawnlist::*}
+
+command /join <text>:
+	trigger:
+		if arg 1 is not set:
+			message "&aworld &c%arg-1% doesn´t exsist"
+			stop
+		else if arg 1 is set:
+			if {worldspawn.%arg 1%} is set:
+				message "&aTeleporting to &b%arg 1%"
+				teleport player to {worldspawn.%arg 1%}
+				stop
+			else:
+				message "&cWorld doesn´t exsist"
+
+command /worlds:
+	trigger:
+		message "&aWorlds: &b%{worldspawnlist::*}%"
+				
+command /worldspawn_del [<text>]:
+	permission: op
+	trigger:
+		if arg 1 is not set:
+			message "&7/worldspawn_del <worldspawn>"
+			stop
+		if arg 1 is set:
+			if {worldspawn.%arg 1%} is set:
+				message "&aWorldspawn: &b%arg 1%, &ais now &cdeleted"
+				remove arg 1 from {worldspawnlist::*}
+				delete {worldspawn.%argument 1%}
+				stop
+			else:
+				message "&aWorldspawn &b%arg-1% &cdoesn´t exsist"
+
+
+
+command /compass:
+	permission: op
+	trigger:
+		give player compass named "&9Worlds"
+
+on right click:
+	if player's tool is compass named "&9Worlds":
+		open virtual chest inventory with size 1 named "&9Server Selector" to player
+		format gui slot 0 of player with light blue stained glass pane named " "
+		format gui slot 1 of player with light blue stained glass pane named " "
+		format gui slot 2 of player with light blue stained glass pane named " "
+		format gui slot 3 of player with ender eye named "&9Skymine" to close:
+			make player execute command "/join skymine"
+		format gui slot 4 of player with light blue stained glass pane named " "		
+		format gui slot 5 of player with golden apple named "&cKitPvp" to close:
+			make player execute command "/join kitpvp"
+		format gui slot 6 of player with light blue stained glass pane named " "
+		format gui slot 7 of player with light blue stained glass pane named " "
+		format gui slot 8 of player with light blue stained glass pane named " "
+		
+		
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

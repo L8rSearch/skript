@@ -1,0 +1,11 @@
+command /resetrecipes:
+	permission: op
+	trigger:
+		wipe server crafting recipes
+		reset server crafting recipes 
+		send "&aCrafting recipes cleared"
+		
+		
+on load:
+	register new shaped recipe for dirt using diamond, diamond, diamond, air, air, air, diamond, diamond, diamond
+	

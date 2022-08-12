@@ -1,0 +1,7 @@
+command /boss [<text>]:
+	permission: op
+	trigger:
+		set hp to 0
+		set atk to 0 
+		if arg-1 is "":
+			

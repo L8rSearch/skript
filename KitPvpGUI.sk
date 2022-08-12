@@ -1,0 +1,320 @@
+#
+#	Stat GUI
+#
+command /stats:
+	trigger:
+		if "%player's world%" is "pvp":
+			open virtual chest inventory with size 1 named "&bStats" to player
+			format gui slot 0 of player with player's skull named "&aIGName: &b%player%"
+			format gui slot 1 of player with slimeball named "&aBalance:&r &b%{%player%.bal}%"
+	#		format gui slot 2 of player with  named ""
+	#		format gui slot 3 of player with  named ""		
+			format gui slot 4 of player with red concrete named "&aKills:&r &b%{%player%.kills}%"
+			format gui slot 5 of player with totem of undying named "&aK/D&r &b%{%player%.kills}/{%player%.deaths}%"
+			format gui slot 6 of player with black concrete named "&aDeaths:&r &b%{%player%.deaths}%"
+	#		format gui slot 7 of player with  named ""
+	#		format gui slot 8 of player with  named ""
+		else:
+			message "&cThis command can't be used in this world"
+#
+#	JOIN STATS
+#
+on join:
+	if {%player%.bal} is not set:
+		set {%player%.bal} to 0
+	if {%player%.deaths} is not set:
+		set {%player%.deaths} to 0
+	if {%player%.kills} is not set:
+		set {%player%.kills} to 0
+	if {%player%.kitsowned} is not set:
+		set {%player%.kitsowned} to 0
+#	kits
+	if {%player%.kit1} is not set:
+		set {%player%.kit1} to 0
+	if {%player%.kit2} is not set:
+		set {%player%.kit2} to 0
+	if {%player%.kit3} is not set:
+		set {%player%.kit3} to 0
+	if {%player%.kit4} is not set:
+		set {%player%.kit4} to 0
+	if {%player%.kit5} is not set:
+		set {%player%.kit5} to 1
+#
+#	PLAYER KILL
+#
+on death:
+	if "%player's world%" is "pvp":
+		victim is a player:
+			attacker is a player:
+				add 1 to {%victim%.deaths}
+				add 1 to {%damager%.kills}
+				add 15 to {%damager%.bal}
+				give damager 1 golden apple
+				add 1 to {%damager%.strength}
+				apply strength {%damager%.strength} to the damager for 5 seconds
+				wait for 5 seconds
+				remove 1 from {%damager%.strength}
+	else:
+		message "&cThis command can't be used in this world"
+
+#
+#	KIT VISUAL GUI
+#
+command /kits:
+	trigger:
+		if "%player's world%" is "pvp":
+			open virtual chest inventory with size 6 named "&6Kits" to player
+			set {kitinv} to 1
+			set {loopnumber} to 0
+	#	Boarder
+			loop 8 times:
+				format gui slot {loopnumber} of player with light blue stained glass pane named " " to close
+					
+				add 1 to {loopnumber}
+			loop 4 times:
+				format gui slot {loopnumber} of player with light blue stained glass pane named " " to close
+					
+				add 1 to {loopnumber}
+				format gui slot {loopnumber} of player with light blue stained glass pane named " " to close
+					
+				add 8 to {loopnumber}
+			loop 10 times:
+				format gui slot {loopnumber} of player with light blue stained glass pane named " " to close
+					
+				add 1 to {loopnumber}
+	#	Kits
+			format gui slot 20 of player with diamond sword named "%{kit1}%" to close
+				
+			format gui slot 22 of player with iron sword named "%{kit2}%" to close
+				
+			format gui slot 24 of player with stone sword named "%{kit3}%" to close
+				
+			format gui slot 30 of player with wooden sword named "%{kit4}%" to close
+				
+			format gui slot 32 of player with bow named "%{kit5}%" to close
+		else:
+			message "&cThis command can't be used in this world"
+
+
+#
+#	KIT PRICES
+#
+on inventory click:
+	if "%player's world%" is "pvp":
+
+		if {kitinv} is 1:
+			if "%click type%" contains "LEFT":
+				set {kitinv} to 0
+				set {kitselect} to ""
+#	Buy / Select Kit
+				name of clicked item is "%{kit1}%":
+					if {%player%.kit1} is 0:
+						if {%player%.bal} >= 600:
+							remove 600 from {%player%.bal}
+							set {%player%.kit1} to 1
+							message "&aA purchase was made"
+						else:
+							message "&cYou dont have $600"
+					if {%player%.kit1} is 1:
+						set {kitselect} to "%{kit1n}%"
+						
+						
+				name of clicked item is "%{kit2}%":
+					if {%player%.kit2} is 0:
+						if {%player%.bal} >= 500:
+							remove 500 from {%player%.bal}
+							set {%player%.kit2} to 1
+							message "&aA purchase was made"
+						else:
+							message "&cYou dont have $500"
+					if {%player%.kit2} is 1:
+						set {kitselect} to "%{kit2n}%"
+					
+					
+				name of clicked item is "%{kit3}%":
+					if {%player%.kit3} is 0:
+						if {%player%.bal} >= 400:
+							remove 400 from {%player%.bal}
+							set {%player%.kit3} to 1
+							message "&aA purchase was made"
+						else:
+							message "&cYou dont have $400"
+					if {%player%.kit3} is 1:
+						set {kitselect} to "%{kit3n}%"
+					
+					
+				name of clicked item is "%{kit4}%":
+					if {%player%.kit4} is 0:
+						if {%player%.bal} >= 300:
+							remove 300 from {%player%.bal}
+							set {%player%.kit4} to 1
+							message "&aA purchase was made"
+						else:
+							message "&cYou dont have $300"
+					if {%player%.kit4} is 1:
+						set {kitselect} to "%{kit4n}%"
+					
+					
+				name of clicked item is "%{kit5}%":
+					if {%player%.kit5} is 0:
+						if {%player%.bal} >= 200:
+							remove 200 from {%player%.bal}
+							set {%player%.kit5} to 1
+							message "&aA purchase was made"
+						else:
+							message "&cYou dont have $%{%player%.kitprice}%"
+					if {%player%.kit5} is 1:
+						set {kitselect} to "%{kit5n}%"
+				
+				if {kitselect} is not "":
+					if {kits::%{kitselect}%} exists:
+						give player {kits::%{kitselect}%::items::*}
+						if player is not wearing armour:
+							equip player with {kits::%{kitselect}%::equipments::*}
+						else:
+							give player {kits::%{kitselect}%::equipments::*}
+					else:
+						send "&cThat kit doesn't exist"
+					
+			if "%click type%" contains "RIGHT":	
+				set {kitinv} to 0
+				name of clicked item is "%{kit1}%":
+					wait for 5 ticks
+					make player execute command "/kit %{kit1n}%"
+				name of clicked item is "%{kit2}%":
+					wait for 5 ticks
+					make player execute command "/kit %{kit2n}%"
+				name of clicked item is "%{kit3}%":
+					wait for 5 ticks
+					make player execute command "/kit %{kit3n}%"
+				name of clicked item is "%{kit4}%":
+					wait for 5 ticks
+					make player execute command "/kit %{kit4n}%"
+				name of clicked item is "%{kit5}%":
+					wait for 5 ticks
+					make player execute command "/kit %{kit5n}%"
+	else:
+		message "&cThis command can't be used in this world"
+				
+				
+command /kit [<text>]:
+	trigger:
+		if "%player's world%" is "pvp":
+			if arg is set:
+				if arg is "%{kit1n}%":
+					open virtual chest inventory with size 1 named "%{kit1}%" to player
+					format gui slot 0 of player with diamond chestplate named "&9Protection 5" to close
+					format gui slot 1 of player with diamond sword named "&9Shapness 5" to close
+					format gui slot 2 of player with golden apple named "&68" to close
+					format gui slot 8 of player with barrier named "&aChoose kit" to close:
+						make player execute command "/kits"
+				if arg is "%{kit2n}%":
+					open virtual chest inventory with size 1 named "%{kit2}%" to player
+					format gui slot 0 of player with diamond chestplate named "&9Protection 4" to close
+					format gui slot 1 of player with diamond sword named "&9Shapness 4" to close
+					format gui slot 2 of player with golden apple named "&66" to close
+					format gui slot 8 of player with barrier named "&aChoose kit" to close:
+						make player execute command "/kits"
+				if arg is "%{kit3n}%":
+					open virtual chest inventory with size 1 named "%{kit3}%" to player
+					format gui slot 0 of player with diamond chestplate named "&9Protection 3" to close
+					format gui slot 1 of player with diamond sword named "&9Shapness 3" to close
+					format gui slot 2 of player with golden apple named "&64" to close
+					format gui slot 8 of player with barrier named "&aChoose kit" to close:
+						make player execute command "/kits"
+				if arg is "%{kit4n}%":
+					open virtual chest inventory with size 1 named "%{kit4}%" to player
+					format gui slot 0 of player with diamond chestplate named "&9Protection 2" to close
+					format gui slot 1 of player with diamond sword named "&9Shapness 2" to close
+					format gui slot 2 of player with golden apple named "&62" to close
+					format gui slot 8 of player with barrier named "&aChoose kit" to close:
+						make player execute command "/kits"
+				if arg is "%{kit5n}%":
+					open virtual chest inventory with size 1 named "%{kit5}%" to player
+					format gui slot 0 of player with diamond chestplate named "&9Protection 1" to close
+					format gui slot 1 of player with diamond sword named "&9Shapness 1" to close
+					format gui slot 2 of player with bow named "&9Power 5" to close
+					format gui slot 3 of player with golden apple named "&62" to close
+					format gui slot 8 of player with barrier named "&aChoose kit" to close:
+						make player execute command "/kits"
+		else:
+			message "&cThis command can't be used in this world"
+					
+			
+			
+			
+			
+
+#	Kits
+#
+command /kit_reload:
+	permission: op
+	trigger:
+		if player is op:
+			if player is op:
+#	Variables
+				set {kit1} to "&cOlympian"
+				set {kit2} to "&eTitan"
+				set {kit3} to "&dGod"
+				set {kit4} to "&bWarrior"
+				set {kit5} to "&7Bow"
+				
+				set {kit1n} to "Olympian"
+				set {kit2n} to "Titan"
+				set {kit3n} to "God"
+				set {kit4n} to "Warrior"
+				set {kit5n} to "Bow"
+#	1
+				set {kits::%{kit1n}%} to ""
+				set {kits::%{kit1n}%::items::*} to ""
+				set {kits::%{kit1n}%::equipments::*} to ""
+				add diamond sword of sharpness 5 named "%{kit1}%" to {kits::%{kit1n}%::items::*}
+				add 8 golden apple to {kits::%{kit1n}%::items::*}
+				add diamond helmet of protection 5 with name "%{kit1}%" to {kits::%{kit1n}%::equipments::*}
+				add diamond chestplate of protection 5 with name "%{kit1}%" to {kits::%{kit1n}%::equipments::*}
+				add diamond leggings of protection 5 with name "%{kit1}%" to {kits::%{kit1n}%::equipments::*}
+				add diamond boots of protection 5 with name "%{kit1}%" to {kits::%{kit1n}%::equipments::*}
+#	2
+				set {kits::%{kit2n}%} to ""
+				set {kits::%{kit2n}%::items::*} to ""
+				set {kits::%{kit2n}%::equipments::*} to ""
+				add diamond sword of sharpness 4 named "%{kit2}%" to {kits::%{kit2n}%::items::*}
+				add 6 golden apple to {kits::%{kit2n}%::items::*}
+				add diamond helmet of protection 4 with name "%{kit2}%" to {kits::%{kit2n}%::equipments::*}
+				add diamond chestplate of protection 4 with name "%{kit2}%" to {kits::%{kit2n}%::equipments::*}
+				add diamond leggings of protection 4 with name "%{kit2}%" to {kits::%{kit2n}%::equipments::*}
+				add diamond boots of protection 4 with name "%{kit2}%" to {kits::%{kit2n}%::equipments::*}
+#	3
+				set {kits::%{kit3n}%} to ""
+				set {kits::%{kit3n}%::items::*} to ""
+				set {kits::%{kit3n}%::equipments::*} to ""
+				add diamond sword of sharpness 3 named "%{kit3}%" to {kits::%{kit3n}%::items::*}
+				add 4 golden apple to {kits::%{kit3n}%::items::*}
+				add diamond helmet of protection 3 with name "%{kit3}%" to {kits::%{kit3n}%::equipments::*}
+				add diamond chestplate of protection 3 with name "%{kit3}%" to {kits::%{kit3n}%::equipments::*}
+				add diamond leggings of protection 3 with name "%{kit3}%" to {kits::%{kit3n}%::equipments::*}
+				add diamond boots of protection 3 with name "%{kit3}%" to {kits::%{kit3n}%::equipments::*}
+#	4
+				set {kits::%{kit4n}%} to ""
+				set {kits::%{kit4n}%::items::*} to ""
+				set {kits::%{kit4n}%::equipments::*} to ""
+				add diamond sword of sharpness 2 named "%{kit4}%" to {kits::%{kit4n}%::items::*}
+				add 2 golden apple to {kits::%{kit4n}%::items::*}
+				add diamond helmet of protection 2 with name "%{kit4}%" to {kits::%{kit4n}%::equipments::*}
+				add diamond chestplate of protection 2 with name "%{kit4}%" to {kits::%{kit4n}%::equipments::*}
+				add diamond leggings of protection 2 with name "%{kit4}%" to {kits::%{kit4n}%::equipments::*}
+				add diamond boots of protection 2 with name "%{kit4}%" to {kits::%{kit4n}%::equipments::*}
+#	5
+				set {kits::%{kit5n}%} to ""
+				set {kits::%{kit5n}%::items::*} to ""
+				set {kits::%{kit5n}%::equipments::*} to ""
+				add diamond sword of sharpness 1 named "%{kit5}%" to {kits::%{kit5n}%::items::*}
+				add bow of infinity and power 5 named "%{kit5}%" to {kits::%{kit5n}%::items::*}
+				add 2 golden apple to {kits::%{kit5n}%::items::*}
+				add 1 arrow to {kits::%{kit5n}%::items::*}
+				add diamond helmet of protection 1 with name "%{kit5}%" to {kits::%{kit5n}%::equipments::*}
+				add diamond chestplate of protection 1 with name "%{kit5}%" to {kits::%{kit5n}%::equipments::*}
+				add diamond leggings of protection 1 with name "%{kit5}%" to {kits::%{kit5n}%::equipments::*}
+				add diamond boots of protection 1 with name "%{kit5}%" to {kits::%{kit5n}%::equipments::*}
+#	Confirmation
+				message "&aKits reloaded"

@@ -1,0 +1,83 @@
+on join:
+	if {joins::*} does not contain player:
+		set {rank.%player%} to "&7Default"
+		set {prestige.%player%} to 0
+		set {multi.%player%} to 1
+		add player to {joins::*}
+
+#
+#	Staff ranks
+#
+command /grant <player> <text>:
+	permission: op
+	permission message: "&aYou don't have permission for this command"
+	trigger:
+		if arg-2 is "Owner":
+			set {rank.%arg-1%} to "&eOwner"
+			send "&d%arg-1% is now the &eOwner"
+		else if arg-2 is "Admin":
+			set {rank.%arg-1%} to "&bAdmin"
+			send "&d%arg-1% is now an &bAdmin"
+		else if arg-2 is "Mod":
+			set {rank.%arg-1%} to "&aMod"
+			send "&d%arg-1% is now a &aMod"
+		else if arg-2 is "Default":
+			set {rank.%arg-1%} to "&7Default"
+			send "&d%arg-1% is now a &7Default&r player"
+#
+#	Rank GUI
+#
+command /ranks:
+	trigger:
+		set {rankprice} to 25000
+		set metadata tag "rankGUI" of player to chest inventory with 1 row named "&0Ranks"
+		set slot 0 of metadata tag "rankGUI" of player to light gray stained glass pane named " "
+		set slot 1 of metadata tag "rankGUI" of player to light gray stained glass pane named " "
+		set slot 7 of metadata tag "rankGUI" of player to light gray stained glass pane named " "
+		set slot 8 of metadata tag "rankGUI" of player to light gray stained glass pane named " "
+		set slot 2 of metadata tag "rankGUI" of player to gold ingot named "&eGold" with lore "&2%{rankprice}% Coins"
+		set slot 3 of metadata tag "rankGUI" of player to diamond named "&bDiamond" with lore "&2%{rankprice}*2% Coins"
+		set slot 4 of metadata tag "rankGUI" of player to emerald named "&aEmerald" with lore "&2%{rankprice}*5% Coins"
+		set slot 5 of metadata tag "rankGUI" of player to Obsidian named "&aObsidian" with lore "&2%{rankprice}*10% Coins"
+		set slot 6 of metadata tag "rankGUI" of player to Bedrock named "&aBedrock" with lore "&2%{rankprice}*20% Coins"
+		open (metadata tag "rankGUI" of player) to player
+
+on inventory click:
+	if event-inventory = (metadata tag "rankGUI" of player):
+		cancel event
+		if index of event-slot is 2:
+			if {bal.%player%} > {rankprice}:
+				subtract {rankprice} from {bal.%player%}
+				set {rank.%player%} to "&6Gold"
+				message "Your rank is now &cGold"
+				stop
+			message "&cYou need &4&l%{rankprice}-{bal.%player%}% &cmore coins"
+		if index of event-slot is 3:
+			if {bal.%player%} > {rankprice}*2:
+				subtract {rankprice}*2 from {bal.%player%}
+				set {rank.%player%} to "&bDiamond"
+				message "Your rank is now &bDiamond"
+				stop
+			message "&cYou need &4&l%{rankprice}*2-{bal.%player%}% &cmore coins"
+		if index of event-slot is 4:
+			if {bal.%player%} > {rankprice}*5:
+				subtract {rankprice}*5 from {bal.%player%}
+				set {rank.%player%} to "&aEmerald"
+				message "Your rank is now &aEmerald"
+				stop
+			message "&cYou need &4&l%{rankprice}*5-{bal.%player%}% &cmore coins"
+		if index of event-slot is 5:
+			if {bal.%player%} > {rankprice}*10:
+				subtract {rankprice}*10 from {bal.%player%}
+				set {rank.%player%} to "&5Obsidian"
+				message "Your rank is now &5Obsidian"
+				stop
+			message "&cYou need &4&l%{rankprice}*10-{bal.%player%}% &cmore coins"
+		if index of event-slot is 6:
+			if {bal.%player%} > {rankprice}*20:
+				subtract {rankprice}*20 from {bal.%player%}
+				set {rank.%player%} to "&0Bedrock"
+				message "Your rank is now &0Bedrock"
+				stop
+			message "&cYou need &4&l%{rankprice}*20-{bal.%player%}% &cmore coins"
+	

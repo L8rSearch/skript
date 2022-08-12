@@ -1,0 +1,30 @@
+command /sell <text>:
+	trigger:
+		if arg-1 is "all":
+			remove all iron ingots named "&7Iron Ingot" from player's inventory
+			remove all iron blocks named "&7Iron Block" from player's inventory
+			remove all gold ingots named "&6Gold Ingot" from player's inventory
+			remove all gold blocks named "&6Gold Block" from player's inventory
+			remove all diamonds named "&bDiamond" from player's inventory
+			remove all diamond blocks named "&bDiamond Block" from player's inventory
+			remove all emeralds named "&aEmerald" from player's inventory
+			remove all emerald blocks named "&aEmerald Block" from player's inventory
+			remove all obsidian named "&5Obsidian" from player's inventory
+			remove all purple glazed terracotta named "&5Obsidian Block" from player's inventory
+			remove all bedrock named "&8Bedrock" from player's inventory
+			remove all gray glazed terracotta named "&8Bedrock Block" from player's inventory
+			
+			set {_ironingots} to number of iron ingots in player's inventory*{value.iron_ingot}
+			set {_ironblocks} to number of iron blocks in player's inventory*{value.iron_block}
+			set {_goldingots} to number of gold ingots in player's inventory*{value.gold_ingot}
+			set {_goldblocks} to number of gold blocks in player's inventory*{value.gold_block}
+			set {_diamonds} to number of diamonds in player's inventory*{value.diamond}
+			set {_diamondblocks} to number of diamond blocks in player's inventory*{value.diamond_block}
+			set {_emeralds} to number of emeralds in player's inventory*{value.emerald}
+			set {_emeraldblocks} to number of emerald blocks in player's inventory*{value.emerald_block}
+			set {_obsidian} to number of obsidian in player's inventory*{value.obsidian}
+			set {_obsidianblocks} to number of purple glazed terracotta in player's inventory*{value.obsidian_block}
+			set {_bedrock} to number of bedrock in player's inventory*{value.bedrock}
+			set {_bedrockblocks} to number of gray glazed terracotta in player's inventory*{value.bedrock_block}
+			set {_totalpayout} to {_ironingots}+{_ironblocks}+{_goldingots}+{_goldblocks}+{_diamonds}+{_diamondblocks}+{_emeralds}+{_emeraldblocks}+{_obsidian}+{_obsidianblocks}+{_bedrock}+{_bedrockblocks}
+			add {_totalpayout} to {bal.%player%}

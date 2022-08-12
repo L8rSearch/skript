@@ -1,0 +1,8 @@
+
+on death:
+    set {%player%.kills} to 0
+    if {%victim%.bounty} is greater than 0:
+        set {%player%.money} to {%player%.money}+{%victim%.bounty}
+    set {%damager%.kills} to {%damager%.kills}+1
+    if mod(,{%damager%.kills},5) is 0:
+        set {%damager%.bounty} to {%damager%.bounty}+100

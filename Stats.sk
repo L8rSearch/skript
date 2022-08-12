@@ -1,0 +1,109 @@
+#
+#	Set Variables on first join
+#
+on join:
+	if {multi.%player%} is not set:
+		set {multi.%player%} to 0
+	if {bal.%player%} is not set:
+		set {bal.%player%} to 0
+	if {deaths.%player%} is not set:
+		set {deaths.%player%} to 0
+	if {kills.%player%} is not set:
+		set {kills.%player%} to 0
+
+#
+#	K/D
+#
+on death:
+	victim is a player:
+		attacker is a player:
+			add 1 to {deaths.%victim%}
+			add 1 to {kills.%attacker%}
+
+#
+#	Prestige
+#
+command /reset_prestiege <player>:
+	permission: op
+	trigger:
+		set {prestige.%arg-1%} to 0
+		message "&a%arg-1% is now back to square one"
+
+command /prestige:
+	trigger:
+		if player's level is larger than or equal to 20+{prestige.%player%}*2:
+			add 1 to {prestige.%player%}
+			send "&7&l[console]&r &aYou are now prestige &9&l[&r&b%{prestige.%player%}%&9&l]" to player
+			subtract 20 from player's level
+		else:
+			send "&7&l[console]&r &cYou need %20+{prestige.%player%}*2-the player's level% &cmore levels" to player
+
+#
+#	Change Bal / Multiplier
+#
+command /add_coins <player> <number>:
+	permission: op
+	trigger:
+		add arg-2 to {bal.%arg-1%}
+		message "&aAdded %arg-2%&a coins to %arg-1%&a's balance"
+
+command /reset_coins <player>:
+	permission: op
+	trigger:
+		set {bal.%arg-1%} to 0
+		message "&a%arg-1% is now poor"
+
+command /add_multi <player> <number>:
+	permission: op
+	trigger:
+		add arg-2 to {multi.%arg-1%}
+		message "&aAdded %arg-2%&a to %arg-1%&a's multiplier"
+
+command /reset_multi <player>:
+	permission: op
+	trigger:
+		set {multi.%arg-1%} to 0
+		message "&a%arg-1% now has no multiplier"
+
+#
+#	Stat GUI
+#
+command /stats [<player>]:
+	trigger:
+		if arg 1 is set:
+			set {target.%player%} to arg 1 
+			set metadata tag "statsGUI" of player to chest inventory with 1 row named "&0Stats"
+			set slot 0 of metadata tag "statsGUI" of player to stone block named "&aBreaks:&r &b%{breaks.%arg-1%}%"
+			set slot 1 of metadata tag "statsGUI" of player to cookie named "&3%{cookies.%arg-1%}% Cookies"
+			set slot 2 of metadata tag "statsGUI" of player to experience bottle named "&aLevel:&r &b%the arg-1's level%"
+			set slot 3 of metadata tag "statsGUI" of player to totem of undying named "&aK/D&r &b%{kills.%arg-1%}/{deaths.%arg-1%}%"
+			set slot 4 of metadata tag "statsGUI" of player to slimeball named "&aCoins:&r &b%{bal.%arg-1%}%"
+			set slot 5 of metadata tag "statsGUI" of player to nether star named "&aMultiplier:&r &b%{multi.%arg-1%}%"
+			set slot 6 of metadata tag "statsGUI" of player to item frame named "&aPrestige:&r &b%{prestige.%arg-1%}%"
+			set slot 7 of metadata tag "statsGUI" of player to barrier named "&aRank:&r &b%{rank.%arg-1%}%"
+			set slot 8 of metadata tag "statsGUI" of player to arg-1's skull named "&aIGName: &b%arg-1%"
+		else:
+			set {target.%player%} to player
+			set metadata tag "statsGUI" of player to chest inventory with 1 row named "&0Stats"
+			set slot 0 of metadata tag "statsGUI" of player to stone block named "&aBreaks:&r &b%{breaks.%player%}%"
+			set slot 1 of metadata tag "statsGUI" of player to cookie named "&3%{cookies.%player%}% Cookies"
+			set slot 2 of metadata tag "statsGUI" of player to experience bottle named "&aLevel:&r &b%the player's level%"
+			set slot 3 of metadata tag "statsGUI" of player to totem of undying named "&aK/D&r &b%{kills.%player%}/{deaths.%player%}%"
+			set slot 4 of metadata tag "statsGUI" of player to slimeball named "&aCoins:&r &b%{bal.%player%}%"
+			set slot 5 of metadata tag "statsGUI" of player to nether star named "&aMultiplier:&r &b%{multi.%player%}%"
+			set slot 6 of metadata tag "statsGUI" of player to item frame named "&aPrestige:&r &b%{prestige.%player%}%"
+			set slot 7 of metadata tag "statsGUI" of player to barrier named "&aRank:&r &b%{rank.%player%}%"
+			set slot 8 of metadata tag "statsGUI" of player to player's skull named "&aIGName: &b%player%"
+		open (metadata tag "statsGUI" of player) to player
+
+on inventory click:
+	if event-inventory = (metadata tag "statsGUI" of player):
+		cancel event
+		if event-index is 1:
+			if {target.%player%} is player:
+				add 2 to {cookies.%player%}
+			else:
+				if {cokkies.{target.%player%}} > 0:
+					add 1 to {cookies.%player%}
+					add -1 to {cookies.%player%}
+					#send "%player% stole a cookie from you" to {target.%player%}

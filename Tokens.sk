@@ -1,0 +1,71 @@
+#
+#	Tokens
+#
+command /tokens [<player>] [<text>] [<number>]:
+	permission: op
+	trigger:
+		if arg-1 is set:
+			if arg-2 is not set:
+				message "&a%arg-1% &ahas &4{%arg-1%.tokens} &atokens." 
+			if arg-3 is set:
+				if arg-2 is "give":
+					add arg-3 to {%arg-1%.tokens}
+					message "Gave %arg-1% %arg-3% tokens."
+				else if arg-2 is "subtract":
+					subtract arg-3 from {%arg-1%.tokens}
+					message "Subtracted %arg-3% of %arg-1%-s tokens."
+				else if arg-2 is "set":
+					set {%arg-1%.tokens} to arg-3
+					message "Sat %arg-1%-s tokens to %arg-3%"
+				else:
+					message "Please use give, subtract or set"
+			else:
+				message "&cThis command dosen't exist."				
+		else:
+			message "&aYou have &4%{%player%.tokens}% &atokens."
+
+
+
+
+#
+#	Withdraw Tokens
+#
+command /tokens_withdraw <number>:
+	trigger:
+		set {_notevalue} to arg-1
+		if {%player%.tokens} >= {_notevalue}:
+			subtract {_notevalue} from {%player%.tokens}
+			message "&aYou now own &a%{%player%.tokens}% &atokens"
+			give player magma cream named "&2$%{_notevalue}% &bTokens" with lore "%{_notevalue}%"
+		else:
+			message "&cYou don't own &4%{_notevalue}% &ctokens"
+		
+command /tokens_withdrawalot <number> <number>:
+	trigger:
+		set {_notevalue} to arg-1
+		set {_loop} to arg-2
+		if {%player%.tokens} >= {_notevalue}*arg-2:
+			loop {_loop} times:
+				give player magma cream named "&2$%{_notevalue}% &bTokens" with lore "%{_notevalue}%"
+		else:
+			message "&cYou don't own &4%{_notevalue}*{_loop}% &ctokens"
+
+on right click with magma cream:
+	set {_test} to line 1 of lore of player's tool parsed as integer
+	if {_test}>0:
+		set {_tool} to player's tool
+		if player is sneaking:
+			set {_allnotes} to number of player's tool in player's inventory
+			loop {_allnotes} times:
+				remove 1 of {_tool} from player
+				add {_test} to {%player%.tokens}
+			message "&aYou now own &2%{%player%.tokens}% &atokens"
+		else:
+			remove 1 of player's tool from player
+			add {_test} to {%player%.tokens}
+			message "&a&You now own &2%{%player%.tokens}% &atokens"
+
+
+
+
+

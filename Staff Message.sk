@@ -1,0 +1,31 @@
+#
+#	Staff Message
+#
+
+command /smsg [<player>] [<text>]:
+	trigger:
+	permission: op
+		if arg-1 and arg-2 is set:
+			if arg-1 is op:
+				say "&aFrom %player%:&r %arg-2%" to arg-1
+				say "&aTo %arg-1%:&r %arg-2%" to player
+				set {%player%.smsg} to arg-2
+				set {%arg-1%.smsg} to player
+			else:
+				message "Player is not op."
+		else:
+			message "&c/smsg Player Text"
+#
+#	Staff Message Reply
+#
+command /sr [<text>]:
+	permission: op
+	trigger:
+		if arg-1 is set:
+			if {%player%.smsg} is set:
+				say "&aFrom %player%:&r %arg-2%" to {%player%.smsg}
+				say "&aTo %{%player%.smsg}%:&r %arg-2%" to player
+			else:
+				message "You dont have anyone to reply to."
+		else:
+			message "&c/r Text "

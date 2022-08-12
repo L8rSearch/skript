@@ -1,0 +1,31 @@
+
+#
+#	Gamemode
+#
+command /gmc [<player>]:
+	permission:op
+	trigger:
+		if arg-1 is set:
+			make player execute command "/gamemode Creative %arg-1%"
+			message "&a%arg-1% is now in Creative"
+		else if arg-1 is not set:
+			make player execute command "/gamemode Creative"
+			message "&aYour Gamemode is now Creative"
+command /gms [<player>]:
+	permission:op
+	trigger:
+		if arg-1 is set:
+			make player execute command "/gamemode Survival %arg-1%"
+			message "&a%arg-1% is now in Survival"
+		else if arg-1 is not set:
+			make player execute command "/gamemode Survival"
+			message "&aYour Gamemode is now Survival"
+command /gma [<player>]:
+	permission:op
+	trigger:
+		if arg-1 is set:
+			make player execute command "/gamemode Adventure %arg-1%"
+			message "&a%arg-1% is now in Adventure"
+		else if arg-1 is not set:
+			make player execute command "/gamemode Adventure"
+			message "&aYour Gamemode is now Adventure"

@@ -1,0 +1,14 @@
+
+command /rtp:
+	permission: op
+	trigger:
+		set {boarderDistance} to 20000
+		set {x1} to a random integer between {boarderDistance} and {boarderDistance} parsed as integer
+		set {z1} to a random integer between {boarderDistance} and {boarderDistance} parsed as integer
+		set {tpl} to location {x1}, 255, {z1}
+		teleport player to {tpl}
+		apply blindness 200 to the player for 10 seconds
+		apply slowness 200 to the player for 10 seconds
+		apply absorption 200 to the player for 10 seconds
+		apply nausea 200 to the player for 10 seconds
+		send title "&aTeleporting" to player for 10 seconds

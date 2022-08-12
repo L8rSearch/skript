@@ -1,0 +1,104 @@
+
+command /pshop:
+	permission: op
+	trigger:
+		open virtual chest inventory with size 6 named "Shop" to player
+		set {loopnumber} to 0
+		loop 9 times:
+			format gui slot {loopnumber} of player with barrier named "&cSALE: EVERYTHING 1 PRISMARINE"
+			add 1 to {loopnumber}
+
+      
+		format gui slot 10 of player with diamond sword named "&cSword" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player diamond sword named "&cSword"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 11 of player with bow named "&cBow" to run: 
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player bow named "&cBow" 
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 12 of player with spectral arrow named "&eGlowing Arrows" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player 64 spectral arrow named "&eGlowing Arrows"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 13 of player with arrow named "&eArrows" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player 64 arrow named "&eArrows"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 15 of player with diamond helmet named "&bHelmet" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player diamond helmet named "&bHelmet"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 16 of player with diamond leggings named "&bLeggings" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player diamond leggings named "&bLeggings"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 19 of player with diamond axe named "&cAxe" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player diamond axe named "&cAxe"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 20 of player with fishing rod named "&eFishing rod" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player fishing rod
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 21 of player with enchanted golden apple named "&aEnchanted apple" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player enchanted golden apple named "&aEnchanted apple"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 22 of player with golden apple named "&aGolden apple" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player golden apple named "&aGolden apple"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 24 of player with diamond chestplate named "&bChestplate" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player diamond chestplate named "&bChestplate"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 25 of player with diamond boots named "&bBoots" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player diamond boots named "&bBoots"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 37 of player with experience bottle named "&930 Levels" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				add 30 to player's level
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 38 of player with lapis lazuli named "&9Lapis lazuli" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player lapis lazuli named "&9Lapis lazuli"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 39 of player with book named "&9Book" to run:
+			if player's inventory contains 1 prismarine shard:
+				remove 1 prismarine shard from player's inventory
+				give player book named "&9Book"
+			else:
+				send "&cYou don't have 1 prismarine shard on you" to player
+		format gui slot 40 of player with enchanted book named "&dEnchanted books" to run:
+			open virtual chest inventory with size 1 named "Enchanted books" to player
+			format gui slot 4 of player with barrier named "&cComming Soon"

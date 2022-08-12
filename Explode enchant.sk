@@ -1,0 +1,79 @@
+#
+#	Makes a block explodeable
+#
+command /explode_add:
+	permission: op
+	trigger:
+		message "&2READY!"
+		set {addExplodable.%player%} to 1
+
+#
+#	Sets the worth of the block
+#
+command /explode_set <text> <number>:
+	permission: op
+	trigger:
+		if {explodes::*} contains arg-1:
+			set {value.%arg-1%} to arg-2
+			message "&aValue of &2%arg-1%&r &ais now &2%{value.%arg-1%}%"
+		else:
+			message "&c%arg-1% is not an explodeable block"
+
+#
+#	Messages you a list of the explodeable blocks
+#
+command /explode_list:
+	permission: op
+	trigger:
+		message "&a%{explodes::*}%"
+
+#
+#	Shows you the worth of a block
+#
+command /explode_worth <text>:
+	permission: op
+	trigger:
+		if {explodes::*} contains arg-1:
+			message "&a%arg-1% is worth &2$%{value.%arg-1%}%"
+		else:
+			message "&a%arg-1% &cis not an explodeable block"
+
+#
+#	Removes the block from being explodeable
+#
+command /explode_remove <text>:
+	permission: op
+	trigger:
+		if {explodes::*} contains arg-1:
+			remove arg-1 from {explodes::*}
+			message "&a%arg-1% is &cREMOVED &afrom explodeable blocks"
+		else:
+			message "&c%arg-1% is not an explodeable block"
+
+#
+#	Deletes the list
+#
+command /explode_reset:
+	permission: op
+	trigger:
+		clear {explodes::*}
+
+#
+#	When you break a block
+#
+on break:
+	if line 6 of lore of player's tool contains "Blast":
+		chance of 100%:
+			create a fake explosion at targeted block
+			loop blocks in radius {pick.blast}+1 around event-block:
+				if {explodes::*} contains type of loop-block:
+					break(loop-block, player)
+					set loop-block to air
+
+	if {addExplodable.%player%} is 1:
+		set {addExplodable.%player%} to 0
+		if {explodes::*} does not contain type of event-block:
+			add type of event-block to {explodes::*}
+			message "&2%type of event-block% &ais now an &2Expoldeable block"
+		else:
+			message "&2%type of event-block% &ais already an explodeable block"

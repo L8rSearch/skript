@@ -1,0 +1,118 @@
+#
+#	/Multishop
+#
+command /multishop:
+	trigger:
+		set {multiworth05} to ({multi.%player%}+0)*20*10^6
+		set {multiworth1} to {multiworth05}+({multi.%player%}+0.5)*20*10^6
+		set {multiworth15} to {multiworth1}+({multi.%player%}+1)*20*10^6
+		set {multiworth2} to {multiworth15}+({multi.%player%}+1.5)*20*10^6
+		set {multiworth25} to {multiworth2}+({multi.%player%}+2)*20*10^6
+		set metadata tag "multishopGUI" of player to chest inventory with 1 row named "&7&lMultipliers"
+		set slot 2 of metadata tag "multishopGUI" of player to nether star named "&d$%{multiworth05}/10^6%Mil &lx0.5 Multiplier" with lore "&7&lInstantly uses the multiplier"
+		set slot 3 of metadata tag "multishopGUI" of player to nether star named "&d$%{multiworth1}/10^6%Mil &lx0.5 Multiplier" with lore "&7&lInstantly uses the multiplier"
+		set slot 4 of metadata tag "multishopGUI" of player to nether star named "&d$%{multiworth15}/10^6%Mil &lx1 Multiplier" with lore "&7&lInstantly uses the multiplier"
+		set slot 5 of metadata tag "multishopGUI" of player to nether star named "&d$%{multiworth2}/10^6%Mil &lx2.5 Multiplier" with lore "&7&lInstantly uses the multiplier"
+		set slot 6 of metadata tag "multishopGUI" of player to nether star named "&d$%{multiworth25}/10^6%Mil &lx2 Multiplier" with lore "&7&lInstantly uses the multiplier"
+		open (metadata tag "multishopGUI" of player) to player
+#
+#	/Shop
+#
+command /shop:
+	trigger:
+		set metadata tag "shopGUI" of player to chest inventory with 6 row named "&0Shop"
+		set slot 10 of metadata tag "shopGUI" of player to diamond sword
+		set slot 11 of metadata tag "shopGUI" of player to bow
+		set slot 12 of metadata tag "shopGUI" of player to spectral arrow
+		set slot 13 of metadata tag "shopGUI" of player to arrow
+		set slot 15 of metadata tag "shopGUI" of player to diamond helmet
+		set slot 16 of metadata tag "shopGUI" of player to diamond leggings
+		set slot 19 of metadata tag "shopGUI" of player to diamond axe
+		set slot 20 of metadata tag "shopGUI" of player to fishing rod
+		set slot 21 of metadata tag "shopGUI" of player to enchanted golden apple
+		set slot 22 of metadata tag "shopGUI" of player to golden apple
+		set slot 24 of metadata tag "shopGUI" of player to diamond chestplate
+		set slot 25 of metadata tag "shopGUI" of player to diamond boots
+		set slot 37 of metadata tag "shopGUI" of player to experience bottle
+		set slot 38 of metadata tag "shopGUI" of player to lapis lazuli
+		set slot 39 of metadata tag "shopGUI" of player to book
+		set slot 40 of metadata tag "shopGUI" of player to enchanted book 
+		open (metadata tag "shopGUI" of player) to player
+
+
+
+on inventory click:
+	if event-inventory = (metadata tag "multishopGUI" of player):
+		cancel event
+		if index of event-slot is 2:
+			if {bal.%player%} >= {multiworth05}:
+				subtract {multiworth05} from {bal.%player%}
+				add 0.5 to {multi.%player%}
+				message "&aYour multiplier is now %{multi.%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth05}-{bal.%player%})/10^6%&4Mil&r &cmore to buy this multiplier"								
+
+		if index of event-slot is 3:
+			if {bal.%player%} >= {multiworth1}:
+				subtract {multiworth1} from {bal.%player%}
+				add 1 to {multi.%player%}
+				message "&aYour multiplier is now %{multi.%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth1}-{bal.%player%})/10^6%&4Mil&r &cmore to buy this multiplier"								
+
+		if index of event-slot is 4:
+			if {bal.%player%} >= {multiworth15}:
+				subtract {multiworth15} from {bal.%player%}
+				add 1.5 to {multi.%player%}
+				message "&aYour multiplier is now %{multi.%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth15}-{bal.%player%})/10^6%&4Mil&r &cmore to buy this multiplier"								
+
+		if index of event-slot is 5:
+			if {bal.%player%} >= {multiworth2}:
+				subtract {multiworth2} from {bal.%player%}
+				add 2 to {multi.%player%}
+				message "&aYour multiplier is now %{multi.%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth2}-{bal.%player%})/10^6%&4Mil&r &cmore to buy this multiplier"								
+
+		if index of event-slot is 6:
+			if {bal.%player%} >= {multiworth25}:
+				subtract {multiworth25} from {bal.%player%}
+				add 2.5 to {multi.%player%}
+				message "&aYour multiplier is now %{multi.%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth25}-{bal.%player%})/10^6%&4Mil&r &cmore to buy this multiplier"
+
+	if event-inventory = (metadata tag "shopGUI" of player):
+		cancel event
+		if index of event-slot is 10:
+			give player diamond sword
+		if index of event-slot is 11:
+			give player bow
+		if index of event-slot is 12:
+			give player 64 spectral arrow
+		if index of event-slot is 13:
+			give player 64 arrow
+		if index of event-slot is 15:
+			give player diamond helmet
+		if index of event-slot is 16:
+			give player diamond leggings
+		if index of event-slot is 19:
+			give player diamond axe
+		if index of event-slot is 20:
+			give player fishing rod
+		if index of event-slot is 21:
+			give player 64 enchanted golden apple
+		if index of event-slot is 22:
+			give player 64 golden apple
+		if index of event-slot is 24:
+			give player diamond chestplate
+		if index of event-slot is 25:
+			give player diamond boots
+		if index of event-slot is 37:
+			give player 64 experience bottle
+		if index of event-slot is 38:
+			give player 64 lapis lazuli
+		if index of event-slot is 39:
+			give player 64 book

@@ -1,0 +1,7 @@
+
+
+
+on break:
+    if player's inventory contains "%{_number}% of %{_item}%" parsed as itemtype:
+    remove {_number} of {_item} from player
+    give player {_itm} named "%{_na}%"

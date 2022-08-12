@@ -1,0 +1,49 @@
+command /give_key <player> <text>:
+	permission: op
+	trigger:
+		if arg-2 is "god":
+			give arg-1 tripwire hook named "&4God Key" with lore "&7Use key at /warp crates"
+		else:
+			message "&4%arg-2% &cis not a key"
+
+command /setkey <Text>:
+	permission:op
+	trigger:
+		set {%arg-1%.key} to 1 of player's tool
+		message "%arg-1%-key is now set"
+
+
+on right click:
+	if event-block is end portal frame:
+		cancel event
+		if player has {GOD.key}:
+			remove 1 of {GOD.key} from player's inventory
+			set {_openingthiscrate} to random integer between 1 and 100
+#God crate chances
+			if {_openingthiscrate} is between 1 and 20:
+				send "&a1" to player
+			if {_openingthiscrate} is between 21 and 40:
+				send "&a2"
+			if {_openingthiscrate} is between 41 and 60:
+				send "&a3"	
+			if {_openingthiscrate} is between 61 and 70:
+				send "&a4"				
+			if {_openingthiscrate} is between 71 and 80:
+				send "&a5"				
+			if {_openingthiscrate} is between 81 and 90:
+				send "&a6"				
+			if {_openingthiscrate} is between 91 and 95:
+				send "&a7"				
+			if {_openingthiscrate} is between 96 and 100:
+				send "&a8"	
+		else:
+			push player in direction of player at speed -0.5
+			message "&cYou need a key to open a crate"
+
+on left click:
+	if event-block is end portal frame:
+		if player is not op:
+			cancel event
+		open virtual chest inventory with size 3 named "&f&lCrates" to player
+		format gui slot 12 of player with tripwire hook named "&4God Key" with lore "&7Click to see what loot this key can give." to close:
+			message "hi"

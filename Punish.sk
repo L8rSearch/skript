@@ -1,0 +1,21 @@
+#Main command /punish <user>
+
+command /punish <player>:
+	permission:punish.use
+	permission message: "&c&LYou cannot use that command"
+	trigger:
+		set {punishing.%player%} to arg-1
+		open virtual chest inventory with size 6 named "Punish %{punishing.%player%}%" to player
+		format gui slot 4 of player with {punishing.%player%}'s skull named "&cPunishing %{punishing.%player%}%" to close
+		format gui slot 10 of player with writable book named "&a&lChat Offences" to run:
+			open virtual chest inventory with size 6 named "Hack Punishments" to player
+			format gui slot 4 of player with {punishing.%player%}'s skull named "&cPunishing %{punishing.%player%}%" to close
+			format gui slot 11 of player with green dye named "&a&lSpam" with lore "&eSeverity: 1" to run:
+				make player execute command "/mute %{punishing.%player%}% 20m spam -s"
+			format gui slot 13 of player with yellow dye named "&a&lSpam" with lore "&eSeverity: 2" to run:
+				make player execute command "/mute %{punishing.%player%}% 40m spam -s"
+			format gui slot 15 of player with red dye named "&a&lSpam" with lore "&eSeverity: 3" to run:
+				make player execute command "/mute %{punishing.%player%}% 60m spam -s"
+		format gui slot 12 of player with writable book named "&6&lRacism"
+		format gui slot 14 of player with writable book named "&b&lExploits"
+		format gui slot 16 of player with writable book named "&c&lHacks"

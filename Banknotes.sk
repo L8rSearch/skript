@@ -1,0 +1,40 @@
+command /withdraw <number>:
+	trigger:
+		if {bal.%player%} > arg-1:
+			set {notevalue} to arg-1
+			give player paper named "&2$%{notevalue}% &bBanknote" with lore "%{notevalue}%"
+		else:
+			message "&cYou don't own &4%{notevalue}% &ccoins"
+		
+command /withdrawalot <number> <number>:
+	trigger:
+		if {bal.%player%} > arg-1*arg-2:
+			set {notevalue} to arg-1
+			loop arg-2 times:
+				give player paper named "&2$%{notevalue}% &bBanknote" with lore "%{notevalue}%"
+		else:
+			message "&cYou don't own &4%{notevalue}% &ccoins"
+
+on right click with paper:
+	if lore of player's tool is "<number>":
+		set {test} to 0
+		set {tool} to player's tool
+		set {test} to lore of player's tool parsed as integer
+		if player is sneaking:
+			set {allnotes} to number of player's tool in player's inventory
+			loop {allnotes} times:
+				remove 1 of {tool} from player
+				add {test} to {bal.%player%}
+			message "&aYou now own &2%{bal.%player%}% &acoins"
+		else:
+			remove 1 of player's tool from player
+			add {test} to {bal.%player%}
+			message "&a&You now own &2%{bal.%player%}% &acoins"
+			
+			
+			
+			
+			
+			
+			
+			

@@ -1,0 +1,11 @@
+
+
+
+command /kvrod <number> <number>:
+	trigger:
+		set {_x} to arg-1
+		set {_xo} to arg-1
+		loop arg-2 times:
+			set {_x} to 1/2*({_x}+/{_xo}/{_x})
+		message "&aKvrod af %{_xo}% er %{_x}%"
+		

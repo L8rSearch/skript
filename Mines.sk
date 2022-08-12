@@ -1,0 +1,139 @@
+#
+#	Events
+#
+on place:
+	if player is not op:
+		cancel event
+		message "&cYou can't place that here"
+on break:
+	add 1 to {breaks.%player%}
+
+#
+#	Bedrock mine
+#
+on right click with fire charge:
+	cancel event
+on block damage:
+	if event-block is bedrock:
+		if player's tool is fire charge named "&7Bedrock &4Breaker":
+			break event-block
+			give player 1 bedrock named "&8Bedrock"
+	if event-block is gray glazed terracotta:
+		if player's tool is fire charge named "&7Bedrock &4Breaker":
+			break event-block
+			give player 1 gray glazed terracotta named "&8Bedrock Block"
+
+
+command /bedrock_breaker:
+	permission: op
+	trigger:
+		give player 1 fire charge named "&7Bedrock &4Breaker"
+
+#
+#	Wool teleport
+#
+on right click:
+	if clicked block is yellow wool:
+		if {rank.%player%} is "&6gold" or "&bDiamond" or "&aEmerald" or "&5Obsidian" or "&0Bedrock":
+			send "&7&l[Console]&r &aYou arrived at the &6Gold &amine" to player
+			teleport player to {mine.gold}
+	if clicked block is light blue wool:
+		if {rank.%player%} is "&bDiamond" or "&aEmerald" or "&5Obsidian" or "&0Bedrock":
+			send "&7&l[Console]&r &aYou arrived at the &bDiamond &amine" to player
+			teleport player to {mine.diamond}
+	if clicked block is lime wool:
+		if {rank.%player%} is "&aEmerald" or "&5Obsidian" or "&0Bedrock":
+			send "&7&l[Console]&r &aYou arrived at the &aEmerald &amine" to player
+			teleport player to {mine.emerald}
+	if clicked block is purple wool:
+		if {rank.%player%} is "&5Obsidian" or "&0Bedrock":
+			send "&7&l[Console]&r &aYou arrived at the &5Obsidian &amine" to player
+			teleport player to {mine.obsidian}
+	if clicked block is light gray wool:
+		if {rank.%player%} is "&0Bedrock":
+			send "&7&l[Console]&r &aYou arrived at the &8Bedrock &amine" to player
+			teleport player to {mine.bedrock}
+
+#
+#	setmine
+#
+command /setmine [<text>]:
+	permission: op 
+	trigger:
+		set {mine.%arg-1%} to location of player
+		message "&7&l[Console]&r &aMine &b%arg-1% &aset to: &b%{mine.%arg-1%}%"
+		if {minelist::*} does not contain arg-1:
+			add arg-1 to {minelist::*}
+
+command /delmine [<text>]:
+	permission: op
+	trigger:
+		if arg 1 is not set:
+			message "&7&l[&r&7Console&l]&r &7/delmine <mine>"
+			stop
+		if arg 1 is set:
+			if {mine.%arg 1%} is set:
+				message "&7&l[&r&7Console&l]&r &aWarp &b%arg 1% &ais now &cdeleted"
+				remove arg 1 from {minelist::*}
+				delete {mine.%arg-1%}
+				stop
+			else:
+				message "&7&l[&r&7Console&l]&r &aMine &b%arg-1% &cdoesn´t exsist"
+
+#
+#	Breaking blocks
+#
+
+on break: 
+	if break(event-block, player) = 0:
+		cancel event
+
+function break(b: block,p: player) :: number:
+	if {_b} is iron ore:
+		give {_p} 1 iron ingot named "&7Iron Ingot"
+	else if {_b} is iron block:
+		give {_p} 1 iron block named "&7Iron Block"		
+	else if {_b} is gold ore:
+		if {rank.%{_p}%} is "&6gold" or "&bDiamond" or "&aEmerald" or "&5Obsidian" or "&0Bedrock" or "&eOwner":
+			give {_p} 1 gold ingot named "&6Gold Ingot"
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is gold block:
+		if {rank.%{_p}%} is "&6gold" or "&bDiamond" or "&aEmerald" or "&5Obsidian" or "&0Bedrock" or "&eOwner":
+			give {_p} 1 gold block named "&6Gold Block"
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is diamond ore:
+		if {rank.%{_p}%} is "&bDiamond" or "&aEmerald" or "&5Obsidian" or "&0Bedrock" or "&eOwner":	
+			give {_p} 1 diamond named "&bDiamond"
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is diamond block:
+		if {rank.%{_p}%} is "&bDiamond" or "&aEmerald" or "&5Obsidian" or "&0Bedrock" or "&eOwner":	
+			give {_p} 1 diamond block named "&bDiamond Block"			
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is emerald ore:
+		if {rank.%{_p}%} is "&aEmerald" or "&5Obsidian" or "&0Bedrock" or "&eOwner":
+			give {_p} 1 emerald named "&aEmerald"
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is emerald block:
+		if {rank.%{_p}%} is "&aEmerald" or "&5Obsidian" or "&0Bedrock" or "&eOwner":
+			give {_p} 1 emerald block named "&aEmerald Block"		
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is obsidian:
+		if {rank.%{_p}%} is "&5Obsidian" or "&0Bedrock" or "&eOwner":
+			give {_p} 1 obsidian named "&5Obsidian"
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_b} is purple glazed terracotta:
+		if {rank.%{_p}%} is "&5Obsidian" or "&0Bedrock" or "&eOwner":
+			give {_p} 1 purple glazed terracotta named "&5Obsidian Block"
+		else:
+			message "&cYour rank is too low to mine this" to {_p}
+	else if {_p} is not op:
+		return 0
+	else:
+		return 1

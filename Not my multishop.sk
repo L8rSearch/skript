@@ -1,0 +1,55 @@
+#
+#	/Multishop
+#
+command /multishop:
+	trigger:
+		#What it costs per 0.5 multiplier- $Mil
+		set {multicost} to 11
+		
+		#Skript
+		set {multicostmil} to {multicost}*10^6
+		set {multiworth05} to ({multi::%player%}+0)*{multicostmil}
+		set {multiworth1} to {multiworth05}+({multi::%player%}+0.5)*{multicostmil}
+		set {multiworth15} to {multiworth1}+({multi::%player%}+1)*{multicostmil}
+		set {multiworth2} to {multiworth15}+({multi::%player%}+1.5)*{multicostmil}
+		set {multiworth25} to {multiworth2}+({multi::%player%}+2)*{multicostmil}
+		open chest with 1 row named "&7&lMultipliers" to player
+		format gui slot 0 of player with pink stained glass pane named " "
+		format gui slot 1 of player with pink stained glass pane named " "		
+		format gui slot 2 of player with nether star named "&d$%{multiworth05}/10^6%Mil &lx0.5 Multiplier" with lore "&7&lInstantly uses the multiplier" to close: 
+			if player's balance >= {multiworth05}:
+				subtract {multiworth05} from player's balance
+				add 0.5 to {multi::%player%}
+				message "&aYour multiplier is now %{multi::%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth05}-player's balance)/10^6%&4Mil&r &cmore to buy this multiplier"								
+		format gui slot 3 of player with nether star named "&d$%{multiworth1}/10^6%Mil &lx1 Multiplier" with lore "&7&lInstantly uses the multiplier" to close: 
+			if player's balance >= {multiworth1}:
+				subtract {multiworth1} from player's balance
+				add 1 to {multi::%player%}
+				message "&aYour multiplier is now %{multi::%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth1}-player's balance)/10^6%&4Mil&r &cmore to buy this multiplier"								
+		format gui slot 4 of player with nether star named "&d$%{multiworth15}/10^6%Mil &lx1.5 Multiplier" with lore "&7&lInstantly uses the multiplier" to close: 
+			if player's balance >= {multiworth15}:
+				subtract {multiworth15} from player's balance
+				add 1.5 to {multi::%player%}
+				message "&aYour multiplier is now %{multi::%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth15}-player's balance)/10^6%&4Mil&r &cmore to buy this multiplier"								
+		format gui slot 5 of player with nether star named "&d$%{multiworth2}/10^6%Mil &lx2 Multiplier" with lore "&7&lInstantly uses the multiplier" to close: 
+			if player's balance >= {multiworth2}:
+				subtract {multiworth2} from player's balance
+				add 2 to {multi::%player%}
+				message "&aYour multiplier is now %{multi::%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth2}-player's balance)/10^6%&4Mil&r &cmore to buy this multiplier"								
+		format gui slot 6 of player with nether star named "&d$%{multiworth25}/10^6%Mil &lx2 Multiplier" with lore "&7&lInstantly uses the multiplier" to close: 
+			if player's balance >= {multiworth25}:
+				subtract {multiworth25} from player's balance
+				add 2.5 to {multi::%player%}
+				message "&aYour multiplier is now %{multi::%player%}%"
+			else:
+				message "&7&l[&r&7console&l]&r &cYou need &4&l$%({multiworth25}-player's balance)/10^6%&4Mil&r &cmore to buy this multiplier"
+		format gui slot 7 of player with pink stained glass pane named " "	
+		format gui slot 8 of player with pink stained glass pane named " "

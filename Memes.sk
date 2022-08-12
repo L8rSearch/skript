@@ -1,0 +1,29 @@
+
+command /meme_add <text>:
+	permission: op
+	trigger:
+		if {memes::*} does not contain arg-1:
+			add arg-1 to {memes::*}
+			add 1 to {intmemes}
+			message "&aYour link is now a meme &2XD"
+		else:
+			message "&cThis is already a &aMeme"
+
+command /meme_remove <text>:
+	permission: op
+	trigger:
+		if {memes::*} does contain arg-1:
+			remove arg-1 to {memes::*}
+			subtract 1 from {intmemes}
+			message "&aYour link is now not a meme &2XD"
+		else:
+			message "&cThis isn't a &aMeme"
+		
+command /meme_list:
+	trigger:
+		message "&a%{memes::*}%"
+
+command /meme:
+	trigger:
+		set {random} to a random number between 1 and {intmemes}
+		message "%format {random} {memes::*}%"
